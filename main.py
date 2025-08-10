@@ -11,7 +11,7 @@ from middlewares.throttling import ThrottlingMiddleware
 from middlewares.auth import AuthMiddleware
 from handlers import start, authentication, registration, unknown, profile, main_menu, charge
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 async def main():
     default_properties = DefaultBotProperties(parse_mode='HTML')
@@ -23,6 +23,7 @@ async def main():
 
     await create_table()
 
+    # ثبت میدلویرها
     user_check_mw = UserCheckMiddleware()
     throttling_mw = ThrottlingMiddleware(
         message_rate_limit=MESSAGE_RATE_LIMIT,
@@ -32,8 +33,9 @@ async def main():
 
     dp.update.middleware(user_check_mw)
     dp.update.middleware(throttling_mw)
-    #dp.update.middleware(auth_mw)
+    dp.update.middleware(auth_mw)  # فعال شد
 
+    # ثبت هندلرها
     start.register_start_handlers(dp)
     authentication.register_auth_handlers(dp)
     registration.register_registration_handlers(dp)

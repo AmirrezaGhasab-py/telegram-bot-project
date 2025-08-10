@@ -5,7 +5,7 @@ def get_main_menu() -> ReplyKeyboardMarkup:
     builder = ReplyKeyboardBuilder()
     
     builder.button(text="👤 پروفایل من")
-    builder.button(text="🛍️ مشاهده محصولات")
+    builder.button(text="🛍️ لیست مشتریان")
     builder.button(text="💳 اعتبار من")
     builder.button(text="💵 شارژ حساب")
     builder.button(text="🤝 همکاری در فروش")

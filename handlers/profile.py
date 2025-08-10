@@ -8,7 +8,9 @@ from handlers.charge import start_charge_process
 from handlers.registration import show_confirmation_summary
 from config import AUTH_EXPIRATION_DAYS
 
-async def show_profile(message: types.Message, user: dict):
+async def show_profile(message: types.Message, **kwargs):
+    user = kwargs.get('user', {})
+    
     last_verified_str = user.get('last_verified_at')
     expiration_info = "نامشخص"
 
@@ -44,7 +46,8 @@ async def show_profile(message: types.Message, user: dict):
 
     await message.answer(profile_text, reply_markup=builder.as_markup())
 
-async def handle_profile_buttons(callback_query: types.CallbackQuery, user: dict, state: FSMContext):
+async def handle_profile_buttons(callback_query: types.CallbackQuery, state: FSMContext, **kwargs):
+    user = kwargs.get('user', {})
     action = callback_query.data
     
     if action == "edit_profile":

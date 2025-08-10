@@ -57,6 +57,7 @@ async def handle_payment_verification(callback_query: types.CallbackQuery, state
         await callback_query.answer("خطا در مبلغ پرداختی.", show_alert=True)
         return
 
+    # شبیه‌سازی پرداخت موفق
     payment_successful = True
     
     if payment_successful:
@@ -76,7 +77,9 @@ async def cancel_charge_handler(callback_query: types.CallbackQuery, state: FSMC
     await state.clear()
     await callback_query.answer("عملیات شارژ لغو شد.", show_alert=False)
     if isinstance(callback_query.message, types.Message):
-        await callback_query.message.delete()
+        await callback_query.message.edit_text(
+            "عملیات شارژ لغو شد. برای شروع مجدد، دستور /start را ارسال کنید."
+        )
 
 def register_charge_handlers(dp: Dispatcher):
     dp.message.register(process_charge_amount, ChargeStates.awaiting_amount)
